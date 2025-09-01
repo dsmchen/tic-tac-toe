@@ -20,8 +20,12 @@ const makeGame = (function () {
 
       // Check gameboard
 
-      const isO = (currentValue) => currentValue === 'O';
-      const isX = (currentValue) => currentValue === 'X';
+      const markO = 'O';
+      const markX = 'X';
+      const isO = (currentValue) => currentValue === markO;
+      const isX = (currentValue) => currentValue === markX;
+      const winnerString = 'Game over! The winner is ';
+      const tieString = `Game over! ${markO} and ${markX} tie!`;
 
       const gameboardColA = [];
       const gameboardColB = [];
@@ -31,9 +35,9 @@ const makeGame = (function () {
       for (const array of gameboard) {
         // Check row
         if (array.every(isO)) {
-          return console.log('Game over! The winner is O!');
+          return console.log(`${winnerString}${markO}!`);
         } else if (array.every(isX)) {
-          return console.log('Game over! The winner is X!');
+          return console.log(`${winnerString}${markX}!`);
         }
 
         gameboardColA.push(array[0]);
@@ -48,13 +52,13 @@ const makeGame = (function () {
         gameboardColB.every(isO) ||
         gameboardColC.every(isO)
       ) {
-        return console.log('Game over! The winner is O!');
+        return console.log(`${winnerString}${markO}!`);
       } else if (
         gameboardColA.every(isX) ||
         gameboardColB.every(isX) ||
         gameboardColC.every(isX)
       ) {
-        return console.log('Game over! The winner is X!');
+        return console.log(`${winnerString}${markX}!`);
       }
 
       // Check diagonal
@@ -69,17 +73,17 @@ const makeGame = (function () {
         gameboard[2][0],
       ];
       if (gameboardDiagonalA.every(isO) || gameboardDiagonalB.every(isO)) {
-        return console.log('Game over! The winner is O!');
+        return console.log(`${winnerString}${markO}!`);
       } else if (
         gameboardDiagonalA.every(isX) ||
         gameboardDiagonalB.every(isX)
       ) {
-        return console.log('Game over! The winner is X!');
+        return console.log(`${winnerString}${markX}!`);
       }
 
       // Check tie
       if (!gameboardEmptySpace.includes(true)) {
-        return console.log('Game over! O and X tie!');
+        return console.log(tieString);
       }
     }
   };
