@@ -98,3 +98,26 @@ header {
   text-align: center;
   padding: 40px;
 }
+
+main {
+  display: flex;
+  justify-content: center;
+  padding-left: 40px;
+  padding-right: 40px;
+}
+
+.gameboard {
+  display: grid;
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: repeat(3, 100px);
+  gap: 10px;
+}
+
+.space {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 5px solid #111;
+  font-size: 4rem;
+  font-weight: bold;
+}

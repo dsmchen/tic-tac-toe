@@ -8,7 +8,7 @@ const game = (function () {
     gameboard.push(new Array(rows).fill(emptySpace));
   }
 
-  const logGameboard = () => console.log(gameboard);
+  const getBoard = () => gameboard;
 
   const logMark = (x, y, mark) => {
     if (x < 0 || x > 2 || y < 0 || y > 2) {
@@ -88,10 +88,25 @@ const game = (function () {
     }
   };
 
-  return { logGameboard, logMark };
+  return { getBoard, logMark };
 })();
 
-game.logGameboard();
+const gameboardDisplay = (function () {
+  const gameboardArray = game.getBoard();
+  const gameboardDiv = document.querySelector('.gameboard');
+
+  for (let i = 0; i < gameboardArray.length; i++) {
+    for (let j = 0; j < gameboardArray[i].length; j++) {
+      const spaceDiv = document.createElement('div');
+      const spaceID = `${i}-${j}`;
+      spaceDiv.classList.add('space');
+      spaceDiv.setAttribute('data-id', spaceID);
+      gameboardDiv.appendChild(spaceDiv);
+    }
+  }
+})();
+
+console.log(game.getBoard());
 
 // row
 // game.logMark(1, 0, 'O');
