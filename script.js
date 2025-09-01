@@ -1,4 +1,4 @@
-const makeGame = (function () {
+const game = (function () {
   const gameboard = [];
   const cols = 3;
   const rows = 3;
@@ -91,39 +91,39 @@ const makeGame = (function () {
   return { logGameboard, logMark };
 })();
 
-makeGame.logGameboard();
+game.logGameboard();
 
 // row
-// makeGame.logMark(1, 0, 'O');
-// makeGame.logMark(1, 1, 'O');
-// makeGame.logMark(1, 2, 'O');
-// makeGame.logMark(1, 0, 'X');
-// makeGame.logMark(1, 1, 'X');
-// makeGame.logMark(1, 2, 'X');
+// game.logMark(1, 0, 'O');
+// game.logMark(1, 1, 'O');
+// game.logMark(1, 2, 'O');
+// game.logMark(1, 0, 'X');
+// game.logMark(1, 1, 'X');
+// game.logMark(1, 2, 'X');
 
 // column
-// makeGame.logMark(0, 2, 'O');
-// makeGame.logMark(1, 2, 'O');
-// makeGame.logMark(2, 2, 'O');
-// makeGame.logMark(0, 0, 'X');
-// makeGame.logMark(1, 0, 'X');
-// makeGame.logMark(2, 0, 'X');
+// game.logMark(0, 2, 'O');
+// game.logMark(1, 2, 'O');
+// game.logMark(2, 2, 'O');
+// game.logMark(0, 0, 'X');
+// game.logMark(1, 0, 'X');
+// game.logMark(2, 0, 'X');
 
 // diagonal
-// makeGame.logMark(0, 0, 'O');
-// makeGame.logMark(1, 1, 'O');
-// makeGame.logMark(2, 2, 'O');
-// makeGame.logMark(0, 2, 'X');
-// makeGame.logMark(1, 1, 'X');
-// makeGame.logMark(2, 0, 'X');
+// game.logMark(0, 0, 'O');
+// game.logMark(1, 1, 'O');
+// game.logMark(2, 2, 'O');
+// game.logMark(0, 2, 'X');
+// game.logMark(1, 1, 'X');
+// game.logMark(2, 0, 'X');
 
 // tie
-makeGame.logMark(1, 1, 'O');
-makeGame.logMark(0, 0, 'X');
-makeGame.logMark(0, 2, 'O');
-makeGame.logMark(2, 0, 'X');
-makeGame.logMark(1, 0, 'O');
-makeGame.logMark(1, 2, 'X');
-makeGame.logMark(0, 1, 'O');
-makeGame.logMark(2, 1, 'X');
-makeGame.logMark(2, 2, 'O');
+game.logMark(1, 1, 'O');
+game.logMark(0, 0, 'X');
+game.logMark(0, 2, 'O');
+game.logMark(2, 0, 'X');
+game.logMark(1, 0, 'O');
+game.logMark(1, 2, 'X');
+game.logMark(0, 1, 'O');
+game.logMark(2, 1, 'X');
+game.logMark(2, 2, 'O');
