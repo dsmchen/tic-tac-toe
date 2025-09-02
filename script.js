@@ -147,3 +147,12 @@ const gameDisplay = (function () {
     })
   );
 })();
+
+const interfaceDisplay = (function () {
+  const overlay = document.querySelector('.overlay');
+  const playBtn = document.querySelector('button.play');
+
+  playBtn.addEventListener('click', () => {
+    overlay.classList.toggle('hidden');
+  });
+})();

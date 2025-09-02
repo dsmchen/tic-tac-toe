@@ -12,5 +12,30 @@
     <main>
       <div class="gameboard"></div>
     </main>
+    <div class="overlay"></div>
+    <dialog open>
+      <form method="dialog">
+        <h2>New Game</h2>
+        <div class="form-row">
+          <label for="player-one-name">Player 1 Name</label>
+          <input
+            type="text"
+            name="player-one-name"
+            id="player-one-name"
+            value="Player 1"
+          />
+        </div>
+        <div class="form-row">
+          <label for="player-two-name">Player 2 Name</label>
+          <input
+            type="text"
+            name="player-two-name"
+            id="player-two-name"
+            value="Player 2"
+          />
+        </div>
+        <button class="primary play">Play</button>
+      </form>
+    </dialog>
   </body>
 </html>
