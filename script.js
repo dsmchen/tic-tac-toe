@@ -3,6 +3,8 @@ const game = (function () {
   const cols = 3;
   const rows = 3;
   const emptySpace = ' ';
+  const markO = 'O';
+  const markX = 'X';
 
   for (let i = 0; i < cols; i++) {
     gameboard.push(new Array(rows).fill(emptySpace));
@@ -10,7 +12,7 @@ const game = (function () {
 
   const getBoard = () => gameboard;
 
-  const logMark = (x, y, mark) => {
+  const placeMark = (x, y, mark) => {
     if (x < 0 || x > 2 || y < 0 || y > 2) {
       console.log('Error: Invalid space, please try again.');
     } else if (gameboard[x][y] !== emptySpace) {
@@ -20,8 +22,6 @@ const game = (function () {
 
       // Check gameboard
 
-      const markO = 'O';
-      const markX = 'X';
       const isO = (currentValue) => currentValue === markO;
       const isX = (currentValue) => currentValue === markX;
       const winnerString = 'Game over! The winner is ';
@@ -88,10 +88,29 @@ const game = (function () {
     }
   };
 
-  return { getBoard, logMark };
+  const getActivePlayer = () => {
+    let activePlayer = '';
+
+    const gameboardString = gameboard.toString();
+    const foundEmpty = gameboardString.match(/ /g);
+    const foundO = gameboardString.match(/O/g);
+    const foundX = gameboardString.match(/X/g);
+
+    if (foundEmpty.length === 9) {
+      activePlayer = markO;
+    } else if (foundO.length === foundX?.length) {
+      activePlayer = markO;
+    } else {
+      activePlayer = markX;
+    }
+
+    return activePlayer;
+  };
+
+  return { getBoard, placeMark, getActivePlayer };
 })();
 
-const gameboardDisplay = (function () {
+const gameDisplay = (function () {
   const gameboardArray = game.getBoard();
   const gameboardDiv = document.querySelector('.gameboard');
 
@@ -104,41 +123,27 @@ const gameboardDisplay = (function () {
       gameboardDiv.appendChild(spaceDiv);
     }
   }
+
+  function displayMark(e) {
+    const spaceDiv = e.target;
+    const spaceID = spaceDiv.getAttribute('data-id');
+    const regex = /\d/g;
+    const digits = spaceID.match(regex);
+    const x = digits[0];
+    const y = digits[1];
+
+    const activePlayer = game.getActivePlayer();
+
+    game.placeMark(x, y, activePlayer);
+    if (spaceDiv.textContent === '') {
+      spaceDiv.textContent = activePlayer;
+    }
+  }
+
+  const spaceDivs = document.querySelectorAll('.space');
+  spaceDivs.forEach((div) =>
+    div.addEventListener('click', (e) => {
+      displayMark(e);
+    })
+  );
 })();
-
-console.log(game.getBoard());
-
-// row
-// game.logMark(1, 0, 'O');
-// game.logMark(1, 1, 'O');
-// game.logMark(1, 2, 'O');
-// game.logMark(1, 0, 'X');
-// game.logMark(1, 1, 'X');
-// game.logMark(1, 2, 'X');
-
-// column
-// game.logMark(0, 2, 'O');
-// game.logMark(1, 2, 'O');
-// game.logMark(2, 2, 'O');
-// game.logMark(0, 0, 'X');
-// game.logMark(1, 0, 'X');
-// game.logMark(2, 0, 'X');
-
-// diagonal
-// game.logMark(0, 0, 'O');
-// game.logMark(1, 1, 'O');
-// game.logMark(2, 2, 'O');
-// game.logMark(0, 2, 'X');
-// game.logMark(1, 1, 'X');
-// game.logMark(2, 0, 'X');
-
-// tie
-game.logMark(1, 1, 'O');
-game.logMark(0, 0, 'X');
-game.logMark(0, 2, 'O');
-game.logMark(2, 0, 'X');
-game.logMark(1, 0, 'O');
-game.logMark(1, 2, 'X');
-game.logMark(0, 1, 'O');
-game.logMark(2, 1, 'X');
-game.logMark(2, 2, 'O');
