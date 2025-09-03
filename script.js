@@ -124,35 +124,65 @@ const gameDisplay = (function () {
     }
   }
 
-  function displayMark(e) {
+  function handleClickBoard(e) {
+    // Place mark
     const spaceDiv = e.target;
     const spaceID = spaceDiv.getAttribute('data-id');
     const regex = /\d/g;
     const digits = spaceID.match(regex);
     const x = digits[0];
     const y = digits[1];
-
     const activePlayer = game.getActivePlayer();
 
     game.placeMark(x, y, activePlayer);
     if (spaceDiv.textContent === '') {
       spaceDiv.textContent = activePlayer;
     }
+
+    // Turn info
+    const playerNamePara = document.querySelector('p.player-name');
+    const markerPara = document.querySelector('p.marker');
+    const playerOneName = setPlayerName.getPlayerOneName();
+    const playerTwoName = setPlayerName.getPlayerTwoName();
+
+    if (activePlayer === 'O') {
+      playerNamePara.textContent = `${playerTwoName}'s Turn`;
+      markerPara.textContent = 'Marker: X';
+    } else {
+      playerNamePara.textContent = `${playerOneName}'s Turn`;
+      markerPara.textContent = 'Marker: O';
+    }
   }
 
   const spaceDivs = document.querySelectorAll('.space');
   spaceDivs.forEach((div) =>
     div.addEventListener('click', (e) => {
-      displayMark(e);
+      handleClickBoard(e);
     })
   );
 })();
 
-const interfaceDisplay = (function () {
+const setPlayerName = (function () {
   const overlay = document.querySelector('.overlay');
   const playBtn = document.querySelector('button.play');
+  const playerNamePara = document.querySelector('p.player-name');
+  const markerPara = document.querySelector('p.marker');
+
+  let playerOneName = '';
+  let playerTwoName = '';
 
   playBtn.addEventListener('click', () => {
+    playerOneName = document.querySelector('input[name=player-one-name]').value;
+    playerTwoName = document.querySelector('input[name=player-two-name]').value;
+
+    playerNamePara.textContent = `${playerOneName}'s Turn`;
+    markerPara.textContent = 'Marker: O';
     overlay.classList.toggle('hidden');
   });
+
+  const getPlayerOneName = () => playerOneName;
+
+  const getPlayerTwoName = () => playerTwoName;
+
+  return { getPlayerOneName, getPlayerTwoName };
 })();
