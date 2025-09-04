@@ -182,11 +182,14 @@ form input {
   border-radius: 10px;
 }
 
-button.primary {
+button {
   cursor: pointer;
   border-radius: 10px;
+  padding: 5px 10px;
+}
+
+button.primary {
   width: 100%;
-  padding: 5px;
   font-weight: bold;
   background-color: #1f883d;
   color: #fff;
@@ -196,11 +199,16 @@ button.primary:hover {
   background-color: #1c8139;
 }
 
-/* Player Name */
+/* Turn Info */
 
 .turn-info {
   margin-top: 40px;
   margin-bottom: 40px;
   text-align: center;
   font-weight: bold;
+}
+
+button.new-game {
+  font-weight: normal;
+  margin-top: 20px;
 }

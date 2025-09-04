@@ -12,6 +12,16 @@ const game = (function () {
 
   const getBoard = () => gameboard;
 
+  const resetBoard = () => {
+    for (const array of gameboard) {
+      for (let i = 0; i < array.length; i++) {
+        if (array[i] !== emptySpace) {
+          array.splice(i, 1, emptySpace);
+        }
+      }
+    }
+  };
+
   const placeMark = (x, y, mark) => {
     if (x < 0 || x > 2 || y < 0 || y > 2) {
       console.log('Error: Invalid space, please try again.');
@@ -96,7 +106,7 @@ const game = (function () {
     const foundO = gameboardString.match(/O/g);
     const foundX = gameboardString.match(/X/g);
 
-    if (foundEmpty.length === 9) {
+    if (foundEmpty?.length === 9) {
       activePlayer = markO;
     } else if (foundO.length === foundX?.length) {
       activePlayer = markO;
@@ -107,7 +117,7 @@ const game = (function () {
     return activePlayer;
   };
 
-  return { getBoard, placeMark, getActivePlayer };
+  return { getBoard, resetBoard, placeMark, getActivePlayer };
 })();
 
 const gameDisplay = (function () {
@@ -160,10 +170,21 @@ const gameDisplay = (function () {
       handleClickBoard(e);
     })
   );
+
+  const resetSpaceDivs = () => {
+    spaceDivs.forEach((div) => {
+      if (div.textContent !== '') {
+        div.textContent = '';
+      }
+    });
+  };
+
+  return { resetSpaceDivs };
 })();
 
 const setPlayerName = (function () {
   const overlay = document.querySelector('.overlay');
+  const newGameBtn = document.querySelector('button.new-game');
   const playBtn = document.querySelector('button.play');
   const playerNamePara = document.querySelector('p.player-name');
   const markerPara = document.querySelector('p.marker');
@@ -178,6 +199,7 @@ const setPlayerName = (function () {
     playerNamePara.textContent = `${playerOneName}'s Turn`;
     markerPara.textContent = 'Marker: O';
     overlay.classList.toggle('hidden');
+    newGameBtn.classList.remove('hidden');
   });
 
   const getPlayerOneName = () => playerOneName;
@@ -185,4 +207,20 @@ const setPlayerName = (function () {
   const getPlayerTwoName = () => playerTwoName;
 
   return { getPlayerOneName, getPlayerTwoName };
+})();
+
+const newGame = (function () {
+  const overlay = document.querySelector('.overlay');
+  const dialog = document.querySelector('dialog');
+  const newGameBtn = document.querySelector('button.new-game');
+
+  function handleClickNewGame() {
+    overlay.classList.toggle('hidden');
+    dialog.toggleAttribute('open');
+
+    game.resetBoard();
+    gameDisplay.resetSpaceDivs();
+  }
+
+  newGameBtn.addEventListener('click', handleClickNewGame);
 })();

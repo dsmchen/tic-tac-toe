@@ -14,6 +14,7 @@
       <div class="turn-info">
         <p class="player-name"></p>
         <p class="marker"></p>
+        <button class="secondary new-game hidden">New Game</button>
       </div>
     </main>
     <div class="overlay"></div>
@@ -27,6 +28,8 @@
             name="player-one-name"
             id="player-one-name"
             value="Player 1"
+            minlength="1"
+            maxlength="20"
           />
         </div>
         <div class="form-row">
@@ -36,6 +39,8 @@
             name="player-two-name"
             id="player-two-name"
             value="Player 2"
+            minlength="1"
+            maxlength="20"
           />
         </div>
         <button class="primary play">Play</button>
