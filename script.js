@@ -34,8 +34,8 @@ const game = (function () {
 
       const isO = (currentValue) => currentValue === markO;
       const isX = (currentValue) => currentValue === markX;
-      const winnerString = 'Game over! The winner is ';
-      const tieString = `Game over! ${markO} and ${markX} tie!`;
+      const winnerString = 'The winner is ';
+      const tieString = `${markO} and ${markX} tie!`;
 
       const gameboardColA = [];
       const gameboardColB = [];
@@ -45,9 +45,9 @@ const game = (function () {
       for (const array of gameboard) {
         // Check row
         if (array.every(isO)) {
-          return console.log(`${winnerString}${markO}!`);
+          return `${winnerString}${markO}!`;
         } else if (array.every(isX)) {
-          return console.log(`${winnerString}${markX}!`);
+          return `${winnerString}${markX}!`;
         }
 
         gameboardColA.push(array[0]);
@@ -62,13 +62,13 @@ const game = (function () {
         gameboardColB.every(isO) ||
         gameboardColC.every(isO)
       ) {
-        return console.log(`${winnerString}${markO}!`);
+        return `${winnerString}${markO}!`;
       } else if (
         gameboardColA.every(isX) ||
         gameboardColB.every(isX) ||
         gameboardColC.every(isX)
       ) {
-        return console.log(`${winnerString}${markX}!`);
+        return `${winnerString}${markX}!`;
       }
 
       // Check diagonal
@@ -83,17 +83,17 @@ const game = (function () {
         gameboard[2][0],
       ];
       if (gameboardDiagonalA.every(isO) || gameboardDiagonalB.every(isO)) {
-        return console.log(`${winnerString}${markO}!`);
+        return `${winnerString}${markO}!`;
       } else if (
         gameboardDiagonalA.every(isX) ||
         gameboardDiagonalB.every(isX)
       ) {
-        return console.log(`${winnerString}${markX}!`);
+        return `${winnerString}${markX}!`;
       }
 
       // Check tie
       if (!gameboardEmptySpace.includes(true)) {
-        return console.log(tieString);
+        return tieString;
       }
     }
   };
@@ -144,7 +144,17 @@ const gameDisplay = (function () {
     const y = digits[1];
     const activePlayer = game.getActivePlayer();
 
-    game.placeMark(x, y, activePlayer);
+    const gameOverString = game.placeMark(x, y, activePlayer);
+    if (gameOverString) {
+      const overlay = document.querySelector('.overlay');
+      const playerNamePara = document.querySelector('p.player-name');
+      const markerPara = document.querySelector('p.marker');
+
+      overlay.classList.remove('hidden');
+      playerNamePara.textContent = 'GAME OVER';
+      markerPara.textContent = gameOverString;
+    }
+
     if (spaceDiv.textContent === '') {
       spaceDiv.textContent = activePlayer;
     }
@@ -155,12 +165,14 @@ const gameDisplay = (function () {
     const playerOneName = setPlayerName.getPlayerOneName();
     const playerTwoName = setPlayerName.getPlayerTwoName();
 
-    if (activePlayer === 'O') {
-      playerNamePara.textContent = `${playerTwoName}'s Turn`;
-      markerPara.textContent = 'Marker: X';
-    } else {
-      playerNamePara.textContent = `${playerOneName}'s Turn`;
-      markerPara.textContent = 'Marker: O';
+    if (!gameOverString) {
+      if (activePlayer === 'O') {
+        playerNamePara.textContent = `${playerTwoName}'s Turn`;
+        markerPara.textContent = 'Marker: X';
+      } else {
+        playerNamePara.textContent = `${playerOneName}'s Turn`;
+        markerPara.textContent = 'Marker: O';
+      }
     }
   }
 
@@ -195,10 +207,12 @@ const setPlayerName = (function () {
   playBtn.addEventListener('click', () => {
     playerOneName = document.querySelector('input[name=player-one-name]').value;
     playerTwoName = document.querySelector('input[name=player-two-name]').value;
+    playerOneName = playerOneName ? playerOneName : 'Player 1';
+    playerTwoName = playerTwoName ? playerTwoName : 'Player 2';
 
     playerNamePara.textContent = `${playerOneName}'s Turn`;
     markerPara.textContent = 'Marker: O';
-    overlay.classList.toggle('hidden');
+    overlay.classList.add('hidden');
     newGameBtn.classList.remove('hidden');
   });
 
@@ -215,8 +229,8 @@ const newGame = (function () {
   const newGameBtn = document.querySelector('button.new-game');
 
   function handleClickNewGame() {
-    overlay.classList.toggle('hidden');
-    dialog.toggleAttribute('open');
+    overlay.classList.remove('hidden');
+    dialog.setAttribute('open', 'open');
 
     game.resetBoard();
     gameDisplay.resetSpaceDivs();
